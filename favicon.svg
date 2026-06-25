@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Open Set Solutions">
+  <rect width="64" height="64" rx="14" fill="#F1F4F7"/>
+  <ellipse cx="32" cy="32" rx="21" ry="17" fill="none" stroke="#2347E8" stroke-width="4" stroke-linecap="round" stroke-dasharray="5 7"/>
+  <circle cx="24" cy="28" r="4" fill="#0E1B33"/>
+  <circle cx="37" cy="36" r="4" fill="#0E1B33"/>
+  <circle cx="44" cy="23" r="3" fill="none" stroke="#0E1B33" stroke-width="3"/>
+  <circle cx="19" cy="42" r="3" fill="none" stroke="#2347E8" stroke-width="3"/>
+</svg>
