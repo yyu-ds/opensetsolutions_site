@@ -95,10 +95,12 @@
   }
 
   /* ============================================================
-     HERO CANVAS — "open set"
-     A soft field of points, each carrying its own open (dashed)
-     neighborhood. Points drift and keep gentle breathing room
-     from one another — an open set, never pinned to an edge.
+     HERO CANVAS — "open set" regions
+     A few soft, organic regions, each drawn with an OPEN (dashed)
+     boundary — the topological idea made visual. They drift and
+     breathe slowly. On mouse-move, the nearest regions reach
+     toward the cursor and warm to the accent, and the cursor
+     carries its own little open neighborhood.
      ============================================================ */
   var canvas = document.getElementById("open-set-canvas");
   if (!canvas) return;
@@ -108,14 +110,34 @@
   var DPR = Math.min(window.devicePixelRatio || 1, 2);
   var W = 0,
     H = 0;
-  var points = [];
+  var regions = [];
 
   // palette
   var INK = "28, 26, 22";
   var ACCENT = "207, 106, 67";
 
+  // pointer state (CSS px, region-canvas space)
+  var mouse = { x: -9999, y: -9999, active: false };
+  var mx = -9999, my = -9999; // eased pointer
+
   function rand(a, b) {
     return a + Math.random() * (b - a);
+  }
+
+  // smooth closed curve through points (Catmull-Rom → bezier)
+  function closedCurve(pts) {
+    var n = pts.length;
+    ctx.beginPath();
+    ctx.moveTo(
+      (pts[n - 1].x + pts[0].x) / 2,
+      (pts[n - 1].y + pts[0].y) / 2
+    );
+    for (var i = 0; i < n; i++) {
+      var p1 = pts[i];
+      var p2 = pts[(i + 1) % n];
+      ctx.quadraticCurveTo(p1.x, p1.y, (p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+    }
+    ctx.closePath();
   }
 
   function build() {
@@ -126,127 +148,198 @@
     canvas.height = Math.round(H * DPR);
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
-    // density scales with area but stays calm
-    var count = Math.round(
-      Math.max(14, Math.min(34, (W * H) / 32000))
-    );
-    points = [];
-    for (var i = 0; i < count; i++) {
-      var accent = Math.random() < 0.22;
-      points.push({
-        x: rand(0, W),
-        y: rand(0, H),
-        vx: rand(-0.18, 0.18),
-        vy: rand(-0.18, 0.18),
-        r: rand(2.2, 4.2),
-        nb: rand(34, 78), // neighborhood radius
-        accent: accent,
-        ph: rand(0, Math.PI * 2) // breathing phase
+    // a calm handful of regions, scaled to the viewport
+    var unit = Math.min(W, H);
+    var defs = [
+      { cx: 0.20, cy: 0.30, r: 0.30, accent: false, dot: true },
+      { cx: 0.74, cy: 0.40, r: 0.40, accent: true,  dot: true },
+      { cx: 0.16, cy: 0.82, r: 0.22, accent: false, dot: true },
+      { cx: 0.56, cy: 0.84, r: 0.26, accent: false, dot: false },
+      { cx: 0.90, cy: 0.86, r: 0.20, accent: true,  dot: false }
+    ];
+    // drop the densest region on small/portrait canvases
+    if (W < 720) defs = [defs[0], defs[1], defs[2]];
+
+    regions = defs.map(function (d) {
+      var verts = Math.max(10, Math.round(d.r * 26));
+      var baseR = d.r * unit * 0.62;
+      var lobes = [];
+      for (var i = 0; i < verts; i++) {
+        lobes.push({
+          amp: rand(0.06, 0.17),     // wobble amount
+          freq: Math.round(rand(1, 3)),
+          phase: rand(0, Math.PI * 2),
+          speed: rand(0.4, 0.9),
+          push: 0                    // live pointer displacement
+        });
+      }
+      return {
+        x: d.cx * W,
+        y: d.cy * H,
+        hx: d.cx * W,               // home (drift anchor)
+        hy: d.cy * H,
+        vx: rand(-0.06, 0.06),
+        vy: rand(-0.06, 0.06),
+        baseR: baseR,
+        verts: verts,
+        lobes: lobes,
+        accent: d.accent,
+        dot: d.dot,
+        ph: rand(0, Math.PI * 2),
+        glow: 0                      // eased accent intensity
+      };
+    });
+  }
+
+  function regionPoints(reg, t) {
+    var pts = [];
+    var breathe = 1 + Math.sin(t * 0.0006 + reg.ph) * 0.05;
+    for (var i = 0; i < reg.verts; i++) {
+      var ang = (i / reg.verts) * Math.PI * 2;
+      var lobe = reg.lobes[i];
+      var wob =
+        1 +
+        lobe.amp *
+          Math.sin(t * 0.001 * lobe.speed + lobe.phase + ang * lobe.freq);
+      var r = reg.baseR * breathe * wob + lobe.push;
+      pts.push({
+        x: reg.x + Math.cos(ang) * r,
+        y: reg.y + Math.sin(ang) * r
       });
     }
+    return pts;
   }
 
   function draw(t) {
     ctx.clearRect(0, 0, W, H);
 
-    // connective threads (only between near neighbors) — very faint
-    for (var i = 0; i < points.length; i++) {
-      for (var j = i + 1; j < points.length; j++) {
-        var a = points[i],
-          b = points[j];
-        var dx = a.x - b.x,
-          dy = a.y - b.y;
-        var d = Math.sqrt(dx * dx + dy * dy);
-        var reach = 150;
-        if (d < reach) {
-          var alpha = (1 - d / reach) * 0.1;
-          ctx.strokeStyle = "rgba(" + INK + "," + alpha + ")";
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
-    }
+    for (var k = 0; k < regions.length; k++) {
+      var reg = regions[k];
+      var pts = regionPoints(reg, t);
+      var col = reg.accent ? ACCENT : INK;
+      var g = reg.glow; // 0..1
 
-    // points + their open (dashed) neighborhoods
-    for (var k = 0; k < points.length; k++) {
-      var p = points[k];
-      var col = p.accent ? ACCENT : INK;
-      var breathe = 1 + Math.sin(t * 0.0009 + p.ph) * 0.12;
+      // soft fill — barely there, warms slightly near the cursor
+      closedCurve(pts);
+      ctx.fillStyle =
+        "rgba(" + col + "," + (0.020 + g * 0.05).toFixed(3) + ")";
+      ctx.fill();
 
-      // open neighborhood ring (dashed = open boundary)
+      // OPEN boundary — dashed, so the edge reads as "not included"
       ctx.save();
-      ctx.setLineDash([2, 5]);
-      ctx.lineWidth = 1;
-      ctx.strokeStyle =
-        "rgba(" + col + "," + (p.accent ? 0.28 : 0.14) + ")";
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.nb * breathe, 0, Math.PI * 2);
+      ctx.setLineDash([2, 6]);
+      ctx.lineWidth = 1.25;
+      var edgeA = (reg.accent ? 0.30 : 0.18) + g * 0.5;
+      ctx.strokeStyle = "rgba(" + col + "," + Math.min(0.9, edgeA) + ")";
+      closedCurve(pts);
       ctx.stroke();
       ctx.restore();
 
-      // the point itself
-      ctx.fillStyle = "rgba(" + col + "," + (p.accent ? 0.95 : 0.6) + ")";
+      // a single interior point (its center), gently pulsing
+      if (reg.dot) {
+        var pr = 2.6 + Math.sin(t * 0.0012 + reg.ph) * 0.5;
+        ctx.fillStyle =
+          "rgba(" + col + "," + (reg.accent ? 0.85 : 0.5 + g * 0.4) + ")";
+        ctx.beginPath();
+        ctx.arc(reg.x, reg.y, pr, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // cursor's own open neighborhood + connective thread to nearest region
+    if (mx > -9000) {
+      // thread to the nearest region center
+      var near = null,
+        nd = 1e9;
+      for (var n = 0; n < regions.length; n++) {
+        var dx0 = regions[n].x - mx,
+          dy0 = regions[n].y - my;
+        var dd = dx0 * dx0 + dy0 * dy0;
+        if (dd < nd) {
+          nd = dd;
+          near = regions[n];
+        }
+      }
+      if (near && nd < 360 * 360) {
+        var a = (1 - Math.sqrt(nd) / 360) * 0.35;
+        ctx.strokeStyle = "rgba(" + ACCENT + "," + a.toFixed(3) + ")";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(mx, my);
+        ctx.lineTo(near.x, near.y);
+        ctx.stroke();
+      }
+
+      var nb = 34 + Math.sin(t * 0.004) * 5;
+      ctx.save();
+      ctx.setLineDash([2, 5]);
+      ctx.lineWidth = 1.25;
+      ctx.strokeStyle = "rgba(" + ACCENT + ",0.55)";
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.arc(mx, my, nb, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.fillStyle = "rgba(" + ACCENT + ",0.9)";
+      ctx.beginPath();
+      ctx.arc(mx, my, 3, 0, Math.PI * 2);
       ctx.fill();
     }
   }
 
-  function step(p) {
-    p.x += p.vx;
-    p.y += p.vy;
+  function update() {
+    // ease pointer toward target (or offscreen when inactive)
+    var tx = mouse.active ? mouse.x : -9999;
+    var ty = mouse.active ? mouse.y : -9999;
+    if (mx < -9000) { mx = tx; my = ty; }
+    else { mx += (tx - mx) * 0.12; my += (ty - my) * 0.12; }
 
-    // soft wrap so nothing is ever pinned to an edge
-    var m = 90;
-    if (p.x < -m) p.x = W + m;
-    if (p.x > W + m) p.x = -m;
-    if (p.y < -m) p.y = H + m;
-    if (p.y > H + m) p.y = -m;
-  }
+    for (var k = 0; k < regions.length; k++) {
+      var reg = regions[k];
 
-  function maintainSpacing() {
-    // gentle mutual repulsion — keep breathing room
-    for (var i = 0; i < points.length; i++) {
-      for (var j = i + 1; j < points.length; j++) {
-        var a = points[i],
-          b = points[j];
-        var dx = a.x - b.x,
-          dy = a.y - b.y;
-        var d2 = dx * dx + dy * dy;
-        var min = 70;
-        if (d2 < min * min && d2 > 0.01) {
-          var d = Math.sqrt(d2);
-          var f = ((min - d) / min) * 0.015;
-          var ux = dx / d,
-            uy = dy / d;
-          a.vx += ux * f;
-          a.vy += uy * f;
-          b.vx -= ux * f;
-          b.vy -= uy * f;
+      // slow drift, gently tethered to home so layout stays balanced
+      reg.x += reg.vx;
+      reg.y += reg.vy;
+      reg.vx += (reg.hx - reg.x) * 0.00012;
+      reg.vy += (reg.hy - reg.y) * 0.00012;
+      reg.vx *= 0.994;
+      reg.vy *= 0.994;
+
+      // pointer influence: nearest edge points bulge toward the cursor,
+      // and the whole region warms to the accent (the "cool" hover effect)
+      var glowTarget = 0;
+      if (mouse.active && mx > -9000) {
+        var cdx = mx - reg.x,
+          cdy = my - reg.y;
+        var cdist = Math.sqrt(cdx * cdx + cdy * cdy);
+        var range = reg.baseR + 140;
+        if (cdist < range) {
+          glowTarget = Math.pow(1 - cdist / range, 1.5);
+        }
+        // per-vertex reach toward the cursor
+        for (var i = 0; i < reg.verts; i++) {
+          var ang = (i / reg.verts) * Math.PI * 2;
+          var ex = reg.x + Math.cos(ang) * reg.baseR;
+          var ey = reg.y + Math.sin(ang) * reg.baseR;
+          var ddx = mx - ex,
+            ddy = my - ey;
+          var ed = Math.sqrt(ddx * ddx + ddy * ddy);
+          var infl = ed < 150 ? (1 - ed / 150) : 0;
+          var target = infl * infl * 34;
+          reg.lobes[i].push += (target - reg.lobes[i].push) * 0.18;
+        }
+      } else {
+        for (var j = 0; j < reg.verts; j++) {
+          reg.lobes[j].push += (0 - reg.lobes[j].push) * 0.12;
         }
       }
-    }
-    // damp velocities so motion stays slow & calm
-    for (var k = 0; k < points.length; k++) {
-      var p = points[k];
-      p.vx *= 0.992;
-      p.vy *= 0.992;
-      var sp = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      var cap = 0.32;
-      if (sp > cap) {
-        p.vx = (p.vx / sp) * cap;
-        p.vy = (p.vy / sp) * cap;
-      }
+      reg.glow += (glowTarget - reg.glow) * 0.1;
     }
   }
 
   var raf = null;
   function loop(t) {
-    maintainSpacing();
-    for (var i = 0; i < points.length; i++) step(points[i]);
+    update();
     draw(t);
     raf = requestAnimationFrame(loop);
   }
@@ -254,11 +347,27 @@
   function start() {
     build();
     if (prefersReduced) {
-      draw(0); // single static frame
+      draw(900); // single calm static frame
     } else {
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(loop);
     }
+  }
+
+  // pointer tracking (skipped entirely under reduced-motion)
+  if (!prefersReduced) {
+    var setPointer = function (clientX, clientY) {
+      var rect = canvas.getBoundingClientRect();
+      mouse.x = clientX - rect.left;
+      mouse.y = clientY - rect.top;
+      mouse.active = true;
+    };
+    canvas.parentElement.addEventListener("mousemove", function (e) {
+      setPointer(e.clientX, e.clientY);
+    });
+    canvas.parentElement.addEventListener("mouseleave", function () {
+      mouse.active = false;
+    });
   }
 
   // Pause when the hero is offscreen (perf + battery)
