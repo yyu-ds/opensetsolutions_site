@@ -1,75 +1,182 @@
-# Open Set Solutions website
+# Open Set Solutions — website
 
-Static single-page website for Open Set Solutions LLC. It is designed to run directly on GitHub Pages at `opensetsolutions.com` with no framework, build step, backend, or local storage.
+The static marketing site for **Open Set Solutions LLC**, a boutique technology
+and AI consultancy. Plain HTML, CSS, and vanilla JavaScript — no framework, no
+build step, no backend. Built to be hosted on **GitHub Pages** at the apex
+domain **opensetsolutions.com**.
 
-## Files
+```
+index.html      → the whole single-page site (all sections)
+blog.html       → the blog listing page
+posts/          → one HTML file per blog post
+styles.css      → all styling + design tokens
+main.js         → hamburger menu, scroll reveals, hero animation
+favicon.svg     → the dashed-circle "open set" glyph
+CNAME           → custom domain for GitHub Pages (opensetsolutions.com)
+.nojekyll       → tells Pages to serve files as-is (no Jekyll processing)
+README.md       → this file
+```
 
-- `index.html` - page content and section anchors.
-- `styles.css` - visual system, responsive layout, accessibility states, and reduced-motion handling.
-- `main.js` - mobile navigation, scroll reveal, hero canvas animation, and mailto contact form.
-- `favicon.svg` - browser favicon.
-- `CNAME` - GitHub Pages custom domain.
-- `.nojekyll` - tells GitHub Pages not to process the site with Jekyll.
+---
 
-## Publish on GitHub Pages
+## Editing the content
 
-1. Create a GitHub repository for the site, for example `opensetsolutions_site`.
-2. Commit and push these files to the repository.
-3. In GitHub, open **Settings > Pages**.
-4. Under **Build and deployment**, choose:
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/root`
-5. Save the settings.
-6. Confirm the custom domain field shows `opensetsolutions.com`. The `CNAME` file in this repo should keep it in sync.
-7. After DNS is configured, enable **Enforce HTTPS** once GitHub allows it.
+Everything you'll likely want to change lives in **`index.html`**, in plain text
+between the tags. Search for the section comments (e.g. `<!-- SERVICES -->`).
 
-## GoDaddy DNS setup
+- **Your email address** — currently `hello@opensetsolutions.com`. It appears in
+  the contact section. Search `index.html` for `hello@opensetsolutions.com` and
+  replace **both** occurrences (the `href="mailto:..."` and the visible button
+  text). To change the pre-filled subject line, edit the `?subject=...` part.
+- **Headline / tagline** — inside `<h1 class="hero__heading">` and the
+  `<p class="hero__lede">` just below it.
+- **Services** — each card is an `<li class="card">`. Edit the `card__title`
+  and `card__body`. Add or remove a card by copying/deleting a whole `<li>`.
+- **About** — the paragraphs inside `<div class="about__body">`, and the three
+  `principles` rows.
+- **Nav links** — inside `<nav class="nav">`. Each link's `href="#id"` points at
+  a section's `id`.
 
-In GoDaddy, open the DNS records for `opensetsolutions.com`.
+### Changing colors / fonts
+Open **`styles.css`**. The palette and fonts are defined once at the very top
+under `:root` (the `--paper`, `--ink`, `--accent`, `--font-*` variables). Change
+a value there and it updates everywhere. Fonts are loaded from Google Fonts via
+the `<link>` in `index.html`'s `<head>`.
 
-Add or update these A records for the apex domain:
+### Previewing locally
+Just double-click `index.html` to open it in a browser. (For the Google Fonts to
+load you'll need an internet connection; everything else works offline.)
 
-| Type | Name | Value | TTL |
-| --- | --- | --- | --- |
-| A | @ | 185.199.108.153 | 1 hour |
-| A | @ | 185.199.109.153 | 1 hour |
-| A | @ | 185.199.110.153 | 1 hour |
-| A | @ | 185.199.111.153 | 1 hour |
+---
 
-Optional but recommended for `www`:
+## Deploying to GitHub Pages
 
-| Type | Name | Value | TTL |
-| --- | --- | --- | --- |
-| CNAME | www | opensetsolutions.com | 1 hour |
+### 1. Create the repository & push these files
+Put all the files in this folder at the **root** of a GitHub repository.
 
-Remove conflicting parked-domain A records or forwarding rules if GoDaddy created them automatically. DNS can take a few minutes to several hours to propagate.
+```bash
+git init
+git add .
+git commit -m "Open Set Solutions website"
+git branch -M main
+git remote add origin https://github.com/<your-username>/<your-repo>.git
+git push -u origin main
+```
 
-## Editing content
+> The repo can be named anything. The `CNAME` file is what binds the site to
+> `opensetsolutions.com`, not the repo name.
 
-Most visible copy lives in `index.html`. Look for the section comments:
+### 2. Turn on GitHub Pages
+1. In the repo, go to **Settings → Pages**.
+2. Under **Build and deployment → Source**, choose **Deploy from a branch**.
+3. Set **Branch** to `main` and folder to **`/ (root)`**, then **Save**.
+4. Wait ~1 minute for the first build. Your site goes live (initially at
+   `https://<username>.github.io/<repo>/`).
 
-- `Hero`
-- `Domains`
-- `Services`
-- `Approach`
-- `About`
-- `Work`
-- `Contact`
+### 3. Set the custom domain
+The included `CNAME` file already contains `opensetsolutions.com`, so GitHub
+should pick it up automatically. To confirm: **Settings → Pages → Custom
+domain** should show `opensetsolutions.com`. If it's blank, type it in and
+**Save** (this just rewrites the `CNAME` file).
 
-The current employer is intentionally unnamed in the About section. The Work cards are intentionally generic templates so they can be replaced later with anonymized case studies.
+Leave **Enforce HTTPS** unchecked until the DNS below has propagated and the
+certificate is issued — then check it.
 
-To update the placeholder email, change `hello@opensetsolutions.com` in both `index.html` and `main.js`.
+---
 
-To update the placeholder case-study metrics, search for `add your result metric` in `index.html`.
+## DNS setup at GoDaddy
 
-## Contact form behavior
+You're pointing the **apex/root domain** (`opensetsolutions.com`, no `www`) at
+GitHub Pages. In the GoDaddy dashboard go to **My Products → Domains →
+opensetsolutions.com → DNS / Manage DNS**.
 
-The form has no backend. On submit, `main.js` validates the required fields and opens a `mailto:` draft to `hello@opensetsolutions.com` with the message details filled in.
+### A. Apex domain → GitHub's IP addresses
+Add **four A records**. For each: Type `A`, Name `@`, and one of these IPs, TTL
+default (1 hour):
 
-To switch to Formspree later:
+```
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
 
-1. Create a Formspree form and copy its endpoint URL.
-2. In `index.html`, add `action="https://formspree.io/f/your-id"` and `method="POST"` to the contact form.
-3. In `main.js`, remove or bypass the `submit` listener for `#contact-form`.
-4. Keep the existing required fields and validation messages for accessibility.
+> If GoDaddy already has a parked/forwarding A record on `@`, delete it first —
+> you should end up with exactly these four A records on `@`.
+
+### B. (Recommended) www → your Pages site
+Add a **CNAME record** so `www.opensetsolutions.com` also works and redirects:
+
+```
+Type:  CNAME
+Name:  www
+Value: <your-username>.github.io        (note the trailing dot if GoDaddy adds one)
+TTL:   1 hour
+```
+
+### C. Remove conflicting records
+- Delete any **Domain Forwarding** GoDaddy set up by default (Domain Settings →
+  Forwarding → remove), as it conflicts with the A records.
+- Make sure there's no other `@` A record or `@`/`www` CNAME pointing elsewhere.
+
+### D. Wait, then verify
+DNS changes can take anywhere from a few minutes to a few hours. Once propagated,
+GitHub (**Settings → Pages**) will show a green check next to the custom domain.
+Then enable **Enforce HTTPS**. Visiting `https://opensetsolutions.com` should
+load the site.
+
+You can check propagation with:
+
+```bash
+dig opensetsolutions.com +short      # should list the four 185.199.x.x IPs
+dig www.opensetsolutions.com +short  # should resolve to <username>.github.io
+```
+
+---
+
+### Nav links
+Inside `<nav class="nav">`. Each link's `href="#id"` points at a section's `id`.
+The **Blog** link points at `blog.html` (a separate page).
+
+---
+
+## The blog
+
+The blog is just static HTML — no database, no build step. There are two pieces:
+
+- **`blog.html`** — the listing page (the index of all posts).
+- **`posts/*.html`** — one file per post (two starter posts are included).
+
+### Adding a new post
+1. **Copy an existing post file** in `posts/` (e.g. duplicate
+   `posts/building-with-room-to-grow.html`) and rename it to a short, lowercase,
+   hyphenated slug, e.g. `posts/our-new-case-study.html`. The filename becomes
+   part of the URL.
+2. **Edit the article** in that new file: the `<title>` and `<meta>` tags in the
+   `<head>`, then the `article__meta` (date + tag), `article__title`,
+   `article__lede`, and the paragraphs/headings/lists inside `<div class="prose">`.
+   Leave the header, footer, and `../` paths alone.
+3. **List it on `blog.html`**: open `blog.html`, find the `<ul class="post-list">`,
+   copy one `<li class="post-row">` block, paste it at the **top** (newest first),
+   and update its link `href`, date, tag, title, and excerpt to match your new post.
+
+That's it — commit and push, and the post is live.
+
+### Article building blocks (inside `<div class="prose">`)
+Use plain HTML; the stylesheet handles the look:
+- `<p>…</p>` — a paragraph
+- `<h2>…</h2>` / `<h3>…</h3>` — section headings
+- `<ul><li>…</li></ul>` — a bulleted list (open-ring bullets)
+- `<blockquote>…</blockquote>` — a pull quote
+- `<strong>…</strong>`, `<em>…</em>`, `<a href="…">…</a>` — inline emphasis / links
+
+---
+
+## Notes
+- **Don't delete `.nojekyll`.** It stops GitHub from running Jekyll, which can
+  otherwise ignore files and folders that start with an underscore.
+- **Don't delete `CNAME`.** Removing it (or pushing without it) resets the custom
+  domain in GitHub Pages.
+- The site is responsive to mobile, keyboard-accessible with visible focus
+  styles, and respects `prefers-reduced-motion` (the hero animation freezes to a
+  single static frame for users who request reduced motion).

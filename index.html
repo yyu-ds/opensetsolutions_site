@@ -1,370 +1,196 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Open Set Solutions LLC | Technology, AI and data science consulting</title>
-    <meta
-      name="description"
-      content="Open Set Solutions designs and ships production search, ranking, LLM, and quantitative systems for e-commerce and fintech teams."
-    >
-    <meta name="theme-color" content="#F1F4F7">
-    <meta property="og:title" content="Open Set Solutions LLC">
-    <meta
-      property="og:description"
-      content="Boutique technology and AI/data-science consultancy for production search, ranking, LLM, and quantitative systems."
-    >
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://opensetsolutions.com/">
-    <link rel="canonical" href="https://opensetsolutions.com/">
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap"
-      rel="stylesheet"
-    >
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open Set Solutions — Boutique technology &amp; AI consultancy</title>
+  <meta name="description" content="Open Set Solutions is a boutique technology and AI consultancy. We help teams turn ambitious ideas into systems that are clear, durable, and ready for what's next." />
 
-    <header class="site-header" data-header>
-      <nav class="nav-shell" aria-label="Primary navigation">
-        <a class="wordmark" href="#top" aria-label="Open Set Solutions home">
-          <span class="brand-glyph" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-          <span>Open Set Solutions</span>
-        </a>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#1C1A16" />
 
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
-          <span class="menu-toggle__line"></span>
-          <span class="menu-toggle__line"></span>
-          <span class="sr-only">Open menu</span>
-        </button>
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Open Set Solutions" />
+  <meta property="og:description" content="A boutique technology and AI consultancy. Technology with room to grow." />
+  <meta property="og:url" content="https://opensetsolutions.com/" />
 
-        <div class="nav-links" id="site-menu" data-menu>
-          <a href="#services">Services</a>
-          <a href="#approach">Approach</a>
-          <a href="#about">About</a>
-          <a href="#work">Work</a>
-          <a class="nav-button" href="#contact">Start a conversation</a>
-        </div>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Schibsted+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a class="wordmark" href="#top" aria-label="Open Set Solutions — home">
+        <span class="wordmark__glyph" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="30" height="30">
+            <circle class="g-ring" cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2.6 3.4" stroke-linecap="round"/>
+            <circle cx="12.4" cy="14.2" r="1.9" fill="var(--accent)"/>
+            <circle cx="19.6" cy="13.6" r="1.5" fill="currentColor"/>
+            <circle cx="16.2" cy="20.4" r="1.6" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="wordmark__text">Open&nbsp;Set <span>Solutions</span></span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Primary">
+        <ul class="nav__list">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="#contact" class="nav__cta">Start a conversation</a></li>
+        </ul>
       </nav>
-    </header>
 
-    <main id="main">
-      <section class="hero section" id="top">
-        <div class="hero__layout page-shell">
-          <div class="hero__copy reveal">
-            <p class="eyebrow">Technology · AI and data science · Software</p>
-            <h1>Find the structure in your hardest data problems.</h1>
-            <p class="hero__sub">
-              Open Set Solutions designs and ships production search, ranking, LLM, and quantitative systems for e-commerce and fintech teams, from messy data to something your engineers can own.
-            </p>
-            <div class="hero__actions" aria-label="Primary actions">
-              <a class="button button--primary" href="#contact">Start a conversation</a>
-              <a class="button button--ghost" href="#services">See what we do</a>
-            </div>
-          </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+  </header>
 
-          <div class="open-set-panel reveal" aria-label="Animated open set visualization">
-            <canvas id="open-set-canvas" width="760" height="640"></canvas>
-            <div class="canvas-caption">
-              <span>structure from scattered data</span>
-              <span>open boundary model</span>
-            </div>
-          </div>
+  <main id="main">
+    <span id="top"></span>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <canvas class="hero__canvas" id="open-set-canvas" aria-hidden="true"></canvas>
+      <div class="container hero__inner">
+        <p class="eyebrow"><span class="eyebrow__mark">↳</span> Boutique technology &amp; AI consultancy</p>
+        <h1 class="hero__heading" id="hero-heading">Technology with<br />room to&nbsp;grow.</h1>
+        <p class="hero__lede">Open Set Solutions helps teams turn ambitious ideas into systems that are
+          clear, durable, and ready for what's next — built with the breathing room to evolve.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#contact">Start a conversation</a>
+          <a class="btn btn--ghost" href="#services">See what we do</a>
+        </div>
+      </div>
+      <div class="hero__scroll" aria-hidden="true">
+        <span class="hero__scroll-line"></span>
+      </div>
+    </section>
+
+    <!-- ===================== DEFINITION BAND (dark) ===================== -->
+    <section class="band band--dark definition" aria-label="What 'open set' means">
+      <div class="container definition__inner">
+        <p class="definition__term"><span>open set</span><em>noun · topology</em></p>
+        <p class="definition__body">A region in which every point has room to move within its own
+          neighborhood — no point pinned to a hard edge, the boundary left open. We build software the
+          same way: <span class="hl">space to adapt, edges that flex, room for your team to grow into.</span></p>
+      </div>
+    </section>
+
+    <!-- ===================== SERVICES ===================== -->
+    <section class="section services" id="services" aria-labelledby="services-heading">
+      <div class="container">
+        <div class="section__head">
+          <p class="label">01 — Services</p>
+          <h2 class="section__title" id="services-heading">The people you meet are the people who build.</h2>
+          <p class="section__intro">Small by design. No oversized retainers, no lock-in — just the right
+            help at the right altitude, from strategy down to the code.</p>
         </div>
 
-        <div class="hero-stats page-shell reveal" aria-label="Practice highlights">
-          <div>
-            <strong>PhD-led</strong>
-            <span>Applied math and statistics</span>
-          </div>
-          <div>
-            <strong>Search · ML · LLM</strong>
-            <span>At large-scale production</span>
-          </div>
-          <div>
-            <strong>Quant background</strong>
-            <span>Risk modeling in finance</span>
-          </div>
-        </div>
-      </section>
+        <ol class="cards">
+          <li class="card">
+            <span class="card__no" aria-hidden="true">01</span>
+            <h3 class="card__title">AI Strategy &amp; Advisory</h3>
+            <p class="card__body">We help you find where AI creates real leverage — and where it doesn't —
+              then chart a path you can actually execute. Clear thinking before any code is written.</p>
+          </li>
+          <li class="card">
+            <span class="card__no" aria-hidden="true">02</span>
+            <h3 class="card__title">Prototyping &amp; Engineering</h3>
+            <p class="card__body">From whiteboard to working software. We design and build AI-powered
+              products, integrations, and internal tools with production-grade craft.</p>
+          </li>
+          <li class="card">
+            <span class="card__no" aria-hidden="true">03</span>
+            <h3 class="card__title">Design &amp; Web Build</h3>
+            <p class="card__body">Interfaces, marketing sites, and design systems &mdash; accessible, fast,
+              and built to last. This very site is one of ours.</p>
+          </li>
+          <li class="card">
+            <span class="card__no" aria-hidden="true">04</span>
+            <h3 class="card__title">Data &amp; Infrastructure</h3>
+            <p class="card__body">Pipelines, evaluation, and the unglamorous plumbing that makes AI
+              dependable in the real world — and easy to reason about later.</p>
+          </li>
+          <li class="card">
+            <span class="card__no" aria-hidden="true">05</span>
+            <h3 class="card__title">Technical Leadership</h3>
+            <p class="card__body">Fractional CTO and hands-on guidance for teams scaling their data and
+              ML capabilities, architecture, and hiring — embedded for as long as you need.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
 
-      <section class="domains section section--tight" aria-labelledby="domains-title">
-        <div class="page-shell domains__layout reveal">
-          <h2 id="domains-title">Built for</h2>
-          <ul class="domain-list" aria-label="Client domains">
-            <li>E-commerce search</li>
-            <li>Marketplaces</li>
-            <li>Recommendations</li>
-            <li>Fintech and risk</li>
-            <li>LLM products</li>
-            <li>Funded startups</li>
+    <!-- ===================== ABOUT ===================== -->
+    <section class="section about" id="about" aria-labelledby="about-heading">
+      <div class="container about__grid">
+        <div class="about__intro">
+          <p class="label">02 — About</p>
+          <h2 class="section__title" id="about-heading">Small by design, on purpose.</h2>
+        </div>
+        <div class="about__body">
+          <p><span class="lead-in">Open Set Solutions LLC</span> is a boutique technology and AI consultancy.
+            We take on a handful of engagements at a time so the people you meet are the people who do the work.</p>
+          <p>The name comes from topology. An <em>open set</em> is a region where every point has breathing
+            room inside its neighborhood — the boundary stays open, nothing is pinned to a hard edge. We think
+            good systems should feel the same way: room to adapt as you learn, boundaries that flex instead of
+            crack, and space for your team to grow into.</p>
+          <p>That belief shapes how we work — careful, senior, and unhurried, with an eye on what your system
+            needs to become, not just what it needs today.</p>
+
+          <ul class="principles" aria-label="How we work">
+            <li><span class="principles__k">Senior</span><span class="principles__v">No hand-offs to junior teams. You work with the people who decide and build.</span></li>
+            <li><span class="principles__k">Open</span><span class="principles__v">No lock-in or black boxes. We leave you with systems your team can own.</span></li>
+            <li><span class="principles__k">Honest</span><span class="principles__v">We'll tell you when AI isn't the answer. The advice is the product.</span></li>
           </ul>
         </div>
-      </section>
-
-      <section class="services section" id="services" aria-labelledby="services-title">
-        <div class="page-shell">
-          <div class="section-heading reveal">
-            <h2 id="services-title">Four ways we plug in.</h2>
-            <p>Senior hands-on work for teams that need more than advice: scoped decisions, working models, and systems in production.</p>
-          </div>
-
-          <div class="service-grid">
-            <article class="service-card service-card--large reveal">
-              <div class="card-index">S1</div>
-              <h3>Search and ranking</h3>
-              <p class="card-kicker">Relevance that moves the metric.</p>
-              <p>LTR, neural rerankers, query and browse understanding, retrieval.</p>
-              <ul class="marker-list">
-                <li>Ranking models GBDT and neural</li>
-                <li>Query understanding and rewriting</li>
-                <li>Offline and online evaluation</li>
-              </ul>
-            </article>
-
-            <article class="service-card reveal">
-              <div class="card-index">S2</div>
-              <h3>LLM, RAG and agents</h3>
-              <p class="card-kicker">Language systems that hold up.</p>
-              <p>RAG, agentic workflows, vector search, reliability and cost.</p>
-              <ul class="marker-list">
-                <li>RAG and dense retrieval</li>
-                <li>Evaluation harnesses</li>
-                <li>Agent architecture and cost control</li>
-              </ul>
-            </article>
-
-            <article class="service-card service-card--accent reveal">
-              <div class="card-index">S3</div>
-              <h3>ML advisory and due diligence</h3>
-              <p class="card-kicker">A senior read on your ML.</p>
-              <p>Architecture review, build-vs-buy, model risk, investor technical DD, team mentoring.</p>
-              <ul class="marker-list">
-                <li>Architecture and roadmap review</li>
-                <li>Technical due diligence</li>
-                <li>Team mentoring</li>
-              </ul>
-            </article>
-
-            <article class="service-card reveal">
-              <div class="card-index">S4</div>
-              <h3>Quantitative and risk modeling</h3>
-              <p class="card-kicker">Models that survive scrutiny.</p>
-              <p>Credit risk, forecasting, validation, regulated-finance rigor.</p>
-              <ul class="marker-list">
-                <li>Credit and risk models</li>
-                <li>Forecasting and validation</li>
-                <li>Model documentation</li>
-              </ul>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="approach section" id="approach" aria-labelledby="approach-title">
-        <div class="page-shell approach__layout">
-          <div class="approach__intro reveal">
-            <h2 id="approach-title">Most models never ship. Ours are built to.</h2>
-            <p>The work is sequenced around ownership: prove what matters, put it in production, then leave the team stronger.</p>
-          </div>
-
-          <ol class="step-list">
-            <li class="step-item reveal">
-              <span class="step-number">01</span>
-              <div>
-                <h3>Frame</h3>
-                <p>Define the metric that matters and whether ML is even the right tool.</p>
-              </div>
-            </li>
-            <li class="step-item reveal">
-              <span class="step-number">02</span>
-              <div>
-                <h3>Prototype</h3>
-                <p>A sharp proof of concept against your real data.</p>
-              </div>
-            </li>
-            <li class="step-item reveal">
-              <span class="step-number">03</span>
-              <div>
-                <h3>Productionize</h3>
-                <p>Deploy, instrument, monitor; a system the team can run.</p>
-              </div>
-            </li>
-            <li class="step-item reveal">
-              <span class="step-number">04</span>
-              <div>
-                <h3>Enable</h3>
-                <p>Documentation and mentoring so the capability stays in-house.</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <section class="about section" id="about" aria-labelledby="about-title">
-        <div class="page-shell about__layout">
-          <div class="about__copy reveal">
-            <h2 id="about-title">A boutique practice, principal-level depth.</h2>
-            <p>
-              Open Set Solutions is led by a PhD applied mathematician with a decade building production search and ranking at scale and quant risk models in banks. Clients work directly with the person doing the work.
-            </p>
-          </div>
-
-          <dl class="credential-grid reveal">
-            <div>
-              <dt>Education</dt>
-              <dd>Ph.D., Applied Mathematics and Statistics</dd>
-            </div>
-            <div>
-              <dt>Now</dt>
-              <dd>Principal-level data scientist, large-scale e-commerce search and ranking</dd>
-            </div>
-            <div>
-              <dt>Before</dt>
-              <dd>VP-level quantitative analyst, credit risk at global investment banks</dd>
-            </div>
-            <div>
-              <dt>Research</dt>
-              <dd>Published ACM SIGIR paper · U.S. patent in ML item reranking</dd>
-            </div>
-            <div>
-              <dt>Also</dt>
-              <dd>Adjunct professor · bilingual EN / 中文</dd>
-            </div>
-          </dl>
-        </div>
-      </section>
-
-      <section class="work section" id="work" aria-labelledby="work-title">
-        <div class="page-shell">
-          <div class="section-heading reveal">
-            <h2 id="work-title">Representative problems.</h2>
-            <p>Templates to replace with real anonymized case studies. No client names, no employer-confidential details.</p>
-          </div>
-
-          <div class="work-grid">
-            <article class="work-card reveal">
-              <h3>E-commerce search</h3>
-              <dl>
-                <div>
-                  <dt>Problem</dt>
-                  <dd>Relevance and browse quality lagged user intent across a large catalog.</dd>
-                </div>
-                <div>
-                  <dt>Approach</dt>
-                  <dd>Built a ranking evaluation loop, query understanding layer, and reranking prototype.</dd>
-                </div>
-                <div>
-                  <dt>Result</dt>
-                  <dd>add your result metric</dd>
-                </div>
-              </dl>
-            </article>
-
-            <article class="work-card reveal">
-              <h3>LLM product</h3>
-              <dl>
-                <div>
-                  <dt>Problem</dt>
-                  <dd>Answers were plausible but hard to trust, measure, and operate at cost.</dd>
-                </div>
-                <div>
-                  <dt>Approach</dt>
-                  <dd>Designed RAG architecture, retrieval tests, evaluation harnesses, and reliability checks.</dd>
-                </div>
-                <div>
-                  <dt>Result</dt>
-                  <dd>add your result metric</dd>
-                </div>
-              </dl>
-            </article>
-
-            <article class="work-card reveal">
-              <h3>Fintech</h3>
-              <dl>
-                <div>
-                  <dt>Problem</dt>
-                  <dd>A modeling workflow needed clearer assumptions, validation, and documentation.</dd>
-                </div>
-                <div>
-                  <dt>Approach</dt>
-                  <dd>Reviewed risk model structure, stress behavior, monitoring, and governance artifacts.</dd>
-                </div>
-                <div>
-                  <dt>Result</dt>
-                  <dd>add your result metric</dd>
-                </div>
-              </dl>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="contact section" id="contact" aria-labelledby="contact-title">
-        <div class="page-shell contact__layout">
-          <div class="contact__copy reveal">
-            <h2 id="contact-title">Have a problem worth solving?</h2>
-            <p>
-              Send a short note to <a href="mailto:hello@opensetsolutions.com">hello@opensetsolutions.com</a>, or use the form to draft an email.
-            </p>
-          </div>
-
-          <form class="contact-form reveal" id="contact-form" novalidate>
-            <div class="form-row">
-              <label for="name">Name</label>
-              <input id="name" name="name" type="text" autocomplete="name" required>
-              <p class="field-error" id="name-error"></p>
-            </div>
-            <div class="form-row">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required>
-              <p class="field-error" id="email-error"></p>
-            </div>
-            <div class="form-row">
-              <label for="company">Company <span>optional</span></label>
-              <input id="company" name="company" type="text" autocomplete="organization">
-            </div>
-            <div class="form-row">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="6" required></textarea>
-              <p class="field-error" id="message-error"></p>
-            </div>
-            <button class="button button--primary button--wide" type="submit">Start a conversation</button>
-            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-          </form>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="page-shell footer__layout">
-        <a class="wordmark wordmark--footer" href="#top" aria-label="Open Set Solutions home">
-          <span class="brand-glyph" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-          <span>Open Set Solutions</span>
-        </a>
-        <nav aria-label="Footer navigation">
-          <a href="#services">Services</a>
-          <a href="#approach">Approach</a>
-          <a href="#about">About</a>
-          <a href="#work">Work</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <p>© <span id="year"></span> Open Set Solutions LLC · New Jersey</p>
       </div>
-    </footer>
+    </section>
 
-    <script src="main.js" defer></script>
-  </body>
+    <!-- ===================== CONTACT (dark) ===================== -->
+    <section class="band band--dark contact" id="contact" aria-labelledby="contact-heading">
+      <div class="container contact__inner">
+        <p class="label label--invert">03 — Start a conversation</p>
+        <h2 class="contact__title" id="contact-heading">Tell us what you're working on.</h2>
+        <p class="contact__body">We read every note and reply personally — usually within a day.
+          Whether it's a half-formed idea or a system that's outgrown itself, we're glad to think it through with you.</p>
+        <a class="btn btn--primary btn--lg" href="mailto:hello@opensetsolutions.com?subject=Starting%20a%20conversation">
+          hello@opensetsolutions.com
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="wordmark wordmark--sm" href="#top" aria-label="Open Set Solutions — back to top">
+        <span class="wordmark__glyph" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="24" height="24">
+            <circle cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 3.4" stroke-linecap="round"/>
+            <circle cx="12.4" cy="14.2" r="1.9" fill="var(--accent)"/>
+            <circle cx="19.6" cy="13.6" r="1.5" fill="currentColor"/>
+            <circle cx="16.2" cy="20.4" r="1.6" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="wordmark__text">Open Set Solutions</span>
+      </a>
+      <p class="footer-note">Boutique technology &amp; AI consultancy.</p>
+      <p class="footer-legal">© <span id="year">2026</span> Open Set Solutions LLC. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
 </html>
