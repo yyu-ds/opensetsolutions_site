@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write Blog Article"
+  short_description: "Create Open Set blog posts"
+  default_prompt: "Use $write-blog-article to add a new Open Set Solutions blog article."
