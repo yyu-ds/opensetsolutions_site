@@ -482,6 +482,7 @@ ul, ol { list-style: none; padding: 0; }
   text-wrap: pretty;
 }
 .contact .btn--primary { margin-top: 36px; }
+.contact .btn--lg { font-family: "JetBrains Mono", ui-monospace, monospace; }
 .contact .btn--lg:hover { transform: translateY(-2px) scale(1.01); }
 
 /* ============================================================
