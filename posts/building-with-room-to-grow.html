@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building with room to grow — Open Set Solutions</title>
+  <meta name="description" content="Why we leave slack in the systems we design — and what topology has to do with shipping software that lasts." />
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#1C1A16" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Building with room to grow" />
+  <meta property="og:description" content="Why we leave slack in the systems we design." />
+  <meta property="og:url" content="https://opensetsolutions.com/posts/building-with-room-to-grow.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Schibsted+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a class="wordmark" href="../index.html" aria-label="Open Set Solutions — home">
+        <span class="wordmark__glyph" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="30" height="30">
+            <circle class="g-ring" cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2.6 3.4" stroke-linecap="round"/>
+            <circle cx="12.4" cy="14.2" r="1.9" fill="var(--accent)"/>
+            <circle cx="19.6" cy="13.6" r="1.5" fill="currentColor"/>
+            <circle cx="16.2" cy="20.4" r="1.6" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="wordmark__text">Open&nbsp;Set <span>Solutions</span></span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <ul class="nav__list">
+          <li><a href="../index.html#services">Services</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../blog.html">Blog</a></li>
+          <li><a href="../index.html#contact" class="nav__cta">Start a conversation</a></li>
+        </ul>
+      </nav>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <article class="article">
+      <div class="container article__inner">
+        <a class="back-link" href="../blog.html"><span aria-hidden="true">←</span> All notes</a>
+
+        <p class="article__meta"><time datetime="2026-06">Jun 2026</time> · <span class="tag">Thinking</span></p>
+        <h1 class="article__title">Building with room to grow</h1>
+        <p class="article__lede">Why we leave slack in the systems we design — and what a hundred-year-old
+          idea from topology has to do with shipping software that lasts.</p>
+
+        <div class="prose">
+          <p>Our company is named after a term from topology. An <strong>open set</strong> is a region where
+            every point has a little space around it that still belongs to the set — no point is pinned to a
+            hard edge, and the boundary is never quite included. It's a precise way of describing something
+            very human: room to move.</p>
+
+          <p>We think the best software has that same quality. Not slack as in waste, but slack as in
+            <em>capacity to absorb change without breaking</em>. The systems that age well are rarely the ones
+            optimized to the millimetre on day one. They're the ones with a little air in the joints.</p>
+
+          <h2>Where we deliberately leave room</h2>
+          <p>"Room to grow" isn't a vibe; it shows up in concrete decisions. A few we make on almost every
+            engagement:</p>
+          <ul>
+            <li>Seams where the system is likely to change — a model provider, a data source, a pricing rule —
+              kept behind a boundary you can swap without surgery.</li>
+            <li>Names and data shapes chosen for what the thing <em>is</em>, not just what today's feature needs,
+              so next quarter's feature isn't fighting the schema.</li>
+            <li>Evaluation and observability built in early, so you can change things later with evidence instead
+              of nerves.</li>
+          </ul>
+
+          <h2>The opposite failure mode</h2>
+          <p>The temptation, especially with AI, is to wire everything tightly to whatever works in the demo.
+            It ships faster and feels great for about six weeks. Then the model changes, or the use case shifts,
+            and the thing that was perfectly fitted to one moment has nowhere to go.</p>
+
+          <blockquote>Tight systems are cheap to build and expensive to change. Open ones cost a little more
+            up front and keep paying you back.</blockquote>
+
+          <p>None of this means over-engineering. An open set isn't infinite — it has a boundary, just a soft
+            one. The craft is knowing which edges to leave open and which to close. That judgment is most of
+            what we're hired for.</p>
+
+          <p>If you're staring at a system that's outgrown the shape it was built in, that's exactly the kind
+            of conversation we like to have.</p>
+        </div>
+
+        <div class="article__foot">
+          <a class="back-link" href="../index.html#contact">Start a conversation <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="wordmark wordmark--sm" href="../index.html" aria-label="Open Set Solutions — home">
+        <span class="wordmark__glyph" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="24" height="24">
+            <circle cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 3.4" stroke-linecap="round"/>
+            <circle cx="12.4" cy="14.2" r="1.9" fill="var(--accent)"/>
+            <circle cx="19.6" cy="13.6" r="1.5" fill="currentColor"/>
+            <circle cx="16.2" cy="20.4" r="1.6" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="wordmark__text">Open Set Solutions</span>
+      </a>
+      <p class="footer-note">Boutique technology &amp; AI consultancy.</p>
+      <p class="footer-legal">© <span id="year">2026</span> Open Set Solutions LLC. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../main.js" defer></script>
+</body>
+</html>
