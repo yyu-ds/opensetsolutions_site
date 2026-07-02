@@ -94,6 +94,104 @@
     });
   }
 
+  /* ---------- Card spotlight: track cursor per card ---------- */
+  var cardsWrap = document.querySelector(".cards");
+  if (cardsWrap && window.matchMedia("(hover: hover)").matches) {
+    cardsWrap.addEventListener("pointermove", function (e) {
+      var card = e.target.closest(".card");
+      if (!card) return;
+      var r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", (((e.clientX - r.left) / r.width) * 100).toFixed(2) + "%");
+      card.style.setProperty("--my", (((e.clientY - r.top) / r.height) * 100).toFixed(2) + "%");
+    });
+  }
+
+  /* ---------- Scroll-linked details: wordmark ring + section thread ---------- */
+  var ringArc = document.getElementById("ring-progress-arc");
+
+  var thread = null;
+  var threadTop = 0;
+  var threadHeight = 0;
+  var threadStart = document.querySelector("#services .label");
+  var threadEnd = document.querySelector("#contact .label");
+
+  if (threadStart && threadEnd) {
+    thread = document.createElement("div");
+    thread.className = "section-thread";
+    thread.setAttribute("aria-hidden", "true");
+    var threadFill = document.createElement("div");
+    threadFill.className = "section-thread__fill";
+    var threadDot = document.createElement("span");
+    threadDot.className = "section-thread__dot";
+    thread.appendChild(threadFill);
+    thread.appendChild(threadDot);
+    document.body.appendChild(thread);
+  }
+
+  function layoutThread() {
+    if (!thread) return;
+    var r1 = threadStart.getBoundingClientRect();
+    var r2 = threadEnd.getBoundingClientRect();
+    var x = r1.left - 36;
+    // no room in the margin on narrow screens — hide entirely
+    if (x < 12) {
+      thread.style.display = "none";
+      threadHeight = 0;
+      return;
+    }
+    threadTop = r1.top + window.scrollY + r1.height / 2;
+    threadHeight = r2.top + window.scrollY + r2.height / 2 - threadTop;
+    thread.style.display = "";
+    thread.style.left = x + "px";
+    thread.style.top = threadTop + "px";
+    thread.style.height = threadHeight + "px";
+  }
+
+  function scrollProgress() {
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    if (ringArc) {
+      ringArc.setAttribute("stroke-dasharray", (p * 100).toFixed(2) + " 100");
+    }
+    if (thread && threadHeight > 0) {
+      var tp =
+        (window.scrollY + window.innerHeight * 0.55 - threadTop) / threadHeight;
+      tp = Math.min(1, Math.max(0, tp));
+      thread.style.setProperty("--thread-p", (tp * 100).toFixed(2) + "%");
+    }
+  }
+
+  var scrollRaf = null;
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(function () {
+        scrollRaf = null;
+        scrollProgress();
+      });
+    },
+    { passive: true }
+  );
+
+  var threadRt = null;
+  window.addEventListener("resize", function () {
+    clearTimeout(threadRt);
+    threadRt = setTimeout(function () {
+      layoutThread();
+      scrollProgress();
+    }, 180);
+  });
+
+  // re-measure once everything (fonts, images) has settled
+  window.addEventListener("load", function () {
+    layoutThread();
+    scrollProgress();
+  });
+  layoutThread();
+  scrollProgress();
+
   /* ============================================================
      HERO CANVAS — "open set" regions
      A few soft, organic regions, each drawn with an OPEN (dashed)
