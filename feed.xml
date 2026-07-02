@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Open Set Solutions — Blog</title>
+    <link>https://opensetsolutions.com/blog.html</link>
+    <atom:link href="https://opensetsolutions.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Notes, work, and thinking from Open Set Solutions — a boutique technology and AI consultancy.</description>
+    <language>en</language>
+    <lastBuildDate>Wed, 24 Jun 2026 09:00:00 +0000</lastBuildDate>
+    <item>
+      <title>A calmer, smarter rebuild for Acupuncture Health Center</title>
+      <link>https://opensetsolutions.com/posts/acupuncture-health-center-rebuild.html</link>
+      <guid isPermaLink="true">https://opensetsolutions.com/posts/acupuncture-health-center-rebuild.html</guid>
+      <pubDate>Wed, 24 Jun 2026 09:00:00 +0000</pubDate>
+      <category>Case Study</category>
+      <description>How a clinic website update turned a familiar legacy site into a modern, mobile-friendly, search-ready experience for patients in Edina, Minnesota.</description>
+    </item>
+    <item>
+      <title>Building with room to grow</title>
+      <link>https://opensetsolutions.com/posts/building-with-room-to-grow.html</link>
+      <guid isPermaLink="true">https://opensetsolutions.com/posts/building-with-room-to-grow.html</guid>
+      <pubDate>Wed, 10 Jun 2026 09:00:00 +0000</pubDate>
+      <category>Thinking</category>
+      <description>Why we leave slack in the systems we design — and what a hundred-year-old idea from topology has to do with shipping software that lasts.</description>
+    </item>
+    <item>
+      <title>When AI isn't the answer</title>
+      <link>https://opensetsolutions.com/posts/when-ai-isnt-the-answer.html</link>
+      <guid isPermaLink="true">https://opensetsolutions.com/posts/when-ai-isnt-the-answer.html</guid>
+      <pubDate>Wed, 20 May 2026 09:00:00 +0000</pubDate>
+      <category>Advisory</category>
+      <description>The most valuable thing a consultant can say is sometimes &quot;you don't need this.&quot; A short case for honesty over hype.</description>
+    </item>
+  </channel>
+</rss>
