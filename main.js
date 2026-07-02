@@ -65,7 +65,7 @@
   /* ---------- Reveal on scroll ---------- */
   var revealEls = [].slice.call(
     document.querySelectorAll(
-      ".definition__inner, .section__head, .card, .about__intro, .about__body, .contact__inner"
+      ".definition__inner, .section__head, .card, .about__intro, .about__body, .contact__inner, .post-row"
     )
   );
   revealEls.forEach(function (el, i) {
@@ -91,6 +91,28 @@
     );
     revealEls.forEach(function (el) {
       io.observe(el);
+    });
+  }
+
+  /* ---------- Blog: tag filter chips ---------- */
+  var tagFilter = document.querySelector(".tag-filter");
+  if (tagFilter) {
+    var chips = [].slice.call(tagFilter.querySelectorAll(".tag-chip"));
+    var taggedRows = [].slice.call(
+      document.querySelectorAll(".post-list [data-tag]")
+    );
+    tagFilter.addEventListener("click", function (e) {
+      var chip = e.target.closest(".tag-chip");
+      if (!chip) return;
+      chips.forEach(function (c) {
+        var active = c === chip;
+        c.classList.toggle("is-active", active);
+        c.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      var tag = chip.getAttribute("data-tag");
+      taggedRows.forEach(function (row) {
+        row.hidden = tag !== "all" && row.getAttribute("data-tag") !== tag;
+      });
     });
   }
 
