@@ -795,3 +795,197 @@ ul, ol { list-style: none; padding: 0; }
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   EFFECTS — quiet details that extend the open-set motif
+   (scroll-progress ring, hero entrance, ε-neighborhood figure,
+   highlight sweep, card spotlight, section thread)
+   ============================================================ */
+
+/* ---------- Wordmark ring as scroll progress ---------- */
+.g-ring--progress { opacity: 0.95; }
+
+/* ---------- Hero entrance (one-time, on load) ---------- */
+.hero__line {
+  display: block;
+  overflow: hidden;
+  /* keep descenders un-clipped at line-height 0.98 */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.hero__line-inner {
+  display: block;
+  transform: translateY(112%);
+  animation: heroRise 0.85s var(--ease) forwards;
+}
+.hero__line:nth-child(2) .hero__line-inner { animation-delay: 0.12s; }
+
+.hero .eyebrow,
+.hero__lede,
+.hero__actions {
+  opacity: 0;
+  animation: heroFade 0.7s var(--ease) forwards;
+}
+.hero .eyebrow  { animation-delay: 0.05s; }
+.hero__lede     { animation-delay: 0.45s; }
+.hero__actions  { animation-delay: 0.6s; }
+
+@keyframes heroRise {
+  to { transform: none; }
+}
+@keyframes heroFade {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Definition: highlight sweep on reveal ---------- */
+.definition__inner.reveal .hl {
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: background-size 1.1s var(--ease) 0.35s;
+}
+.definition__inner.reveal.is-in .hl { background-size: 100% 100%; }
+
+/* ---------- Definition: ε-neighborhood figure ---------- */
+.definition__figure {
+  margin: clamp(28px, 4vw, 44px) 0 0;
+  max-width: 240px;
+}
+.definition__figure svg { width: 100%; height: auto; overflow: visible; }
+.definition__figure figcaption {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--on-dark-soft);
+}
+
+.figure-region {
+  fill: rgba(207, 106, 67, 0.05);
+  stroke: rgba(244, 239, 230, 0.32);
+  stroke-width: 1.3;
+  stroke-dasharray: 3 6;
+  stroke-linecap: round;
+  animation: dashCrawl 60s linear infinite;
+}
+@keyframes dashCrawl {
+  to { stroke-dashoffset: -180; }
+}
+
+.figure-drift { animation: pointDrift 18s ease-in-out infinite; }
+@keyframes pointDrift {
+  0%, 100% { transform: translate(0, 0); }
+  33%      { transform: translate(36px, 30px); }
+  66%      { transform: translate(-4px, 44px); }
+}
+
+.figure-nbhd--a {
+  fill: rgba(207, 106, 67, 0.06);
+  stroke: rgba(207, 106, 67, 0.7);
+  stroke-width: 1.2;
+  stroke-dasharray: 2.5 5;
+  stroke-linecap: round;
+}
+.figure-radius {
+  stroke: rgba(207, 106, 67, 0.5);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.figure-eps {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: #E89B79;
+}
+.figure-pt--a { fill: var(--accent); }
+
+.figure-nbhd--b {
+  fill: none;
+  stroke: rgba(244, 239, 230, 0.45);
+  stroke-width: 1.1;
+  stroke-dasharray: 2 4;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nbhdBreathe 6s ease-in-out infinite;
+}
+@keyframes nbhdBreathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.18); }
+}
+.figure-pt--b { fill: rgba(244, 239, 230, 0.75); }
+
+@media (max-width: 800px) {
+  .definition__figure { max-width: 190px; margin-top: 24px; }
+}
+
+/* ---------- Card spotlight: cursor-tracked border glow ---------- */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    220px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(207, 106, 67, 0.55),
+    transparent 70%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+.card:hover::before { opacity: 1; }
+
+/* ---------- Section thread (01 → 02 → 03) ---------- */
+.section-thread {
+  position: absolute;
+  width: 1px;
+  background-image: repeating-linear-gradient(
+    to bottom, var(--line) 0 4px, transparent 4px 10px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+.section-thread__fill {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom, var(--accent) 0 4px, transparent 4px 10px
+  );
+  clip-path: inset(0 0 calc(100% - var(--thread-p, 0%)) 0);
+}
+.section-thread__dot {
+  position: absolute;
+  left: 50%;
+  top: var(--thread-p, 0%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+}
+
+/* ---------- Reduced motion: settle everything instantly ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero__line-inner,
+  .hero .eyebrow,
+  .hero__lede,
+  .hero__actions {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .figure-region,
+  .figure-drift,
+  .figure-nbhd--b { animation: none; }
+  .definition__inner.reveal .hl {
+    transition: none;
+    background-size: 100% 100%;
+  }
+  .card::before { transition: none; }
+}
